@@ -83,13 +83,13 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    public class FetchWeatherTask extends AsyncTask<String, Void, String> {
+    public class FetchWeatherTask extends AsyncTask<String, Void, ArrayList<String[]>> {
 
         public static final String API_KEY = "735283308e7a28a15592c3d878975460";
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
-        protected String doInBackground(String... params) {
+        protected ArrayList<String[]> doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -142,7 +142,7 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
                 Log.v(LOG_TAG, forecastJsonStr);
-                return forecastJsonStr;
+                return parseResult(forecastJsonStr);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
