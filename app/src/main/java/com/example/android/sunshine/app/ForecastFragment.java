@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -155,6 +159,27 @@ public class ForecastFragment extends Fragment {
                         Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
+            }
+        }
+
+        public ArrayList<String[]> parseResult(String jsonString) {
+            ArrayList<String[]> result = new ArrayList<>();
+            try {
+                JSONObject data = new JSONObject(jsonString);
+                JSONArray list = data.getJSONArray("list");
+                for (int i = 0; i < list.length(); i++) {
+                    JSONObject jsonItem = list.getJSONObject(i);
+                    String[] item = {
+                            jsonItem.getJSONObject("temp").getString("min"),
+                            jsonItem.getJSONObject("temp").getString("max"),
+                            jsonItem.getJSONObject("weather").getString("main")
+                    };
+                    result.add(item);
+                }
+                return result;
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "Cannot parse JSON: " + e.getMessage());
+                return null;
             }
         }
     }
