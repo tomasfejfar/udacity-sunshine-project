@@ -9,5 +9,11 @@
     tools:context=".DetailActivity$PlaceholderFragment"
     tools:showIn="@layout/activity_detail">
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/forecast_text"
+        android:layout_gravity="center_horizontal" />
 </RelativeLayout>
