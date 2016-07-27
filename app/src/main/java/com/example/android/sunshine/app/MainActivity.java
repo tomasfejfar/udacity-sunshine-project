@@ -3,11 +3,14 @@ package com.example.android.sunshine.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.ActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    protected ActionProvider menuShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
