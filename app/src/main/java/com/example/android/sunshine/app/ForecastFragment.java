@@ -58,8 +58,23 @@ public class ForecastFragment extends Fragment {
         switch (id) {
             case R.id.action_refresh:
                 getWeather();
+                return true;
+            case R.id.action_show_map:
+                showMap();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void showMap() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = pref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default_value));
+        Uri geoLocation = Uri.parse("geo:0,0").buildUpon().appendQueryParameter("q", location).build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 
