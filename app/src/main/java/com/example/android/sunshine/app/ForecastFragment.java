@@ -1,9 +1,11 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
@@ -56,7 +58,9 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_refresh:
-                new FetchWeatherTask().execute("46604,cz");
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String location = pref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default_value));
+                new FetchWeatherTask().execute(location);
             default:
                 return super.onOptionsItemSelected(item);
         }
