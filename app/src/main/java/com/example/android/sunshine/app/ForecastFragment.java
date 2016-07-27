@@ -67,7 +67,8 @@ public class ForecastFragment extends Fragment {
     private void getWeather() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location = pref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default_value));
-        new FetchWeatherTask().execute(location);
+        String units = pref.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_default));
+        new FetchWeatherTask().execute(location, units);
     }
 
     @Override
@@ -127,6 +128,7 @@ public class ForecastFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
             String postCode = params[0];
+            String units = params[1];
 
             try {
                 // Construct the URL for the OpenWeatherMap query
@@ -139,7 +141,7 @@ public class ForecastFragment extends Fragment {
                         .appendEncodedPath("/data/2.5/forecast/daily")
                         .appendQueryParameter("q", postCode)
                         .appendQueryParameter("mode", "json")
-                        .appendQueryParameter("units", "metric")
+                        .appendQueryParameter("units", units)
                         .appendQueryParameter("cnt", Integer.toString(numberOfDays))
                         .appendQueryParameter("appid", API_KEY);
                 URL httpUrl = new URL(uriBuilder.toString());
