@@ -58,12 +58,22 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_refresh:
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String location = pref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default_value));
-                new FetchWeatherTask().execute(location);
+                getWeather();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void getWeather() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = pref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default_value));
+        new FetchWeatherTask().execute(location);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getWeather();
     }
 
     @Override
